@@ -24,7 +24,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-
 """This is a module that is used for generating plots that show's how a
 course has evolved."""
 
@@ -83,13 +82,19 @@ def calculate_score(scores):
     return sum([SCORE_RANKINGS[score] for score in scores]) / float(len(scores))
 
 def readlines_no_carrige_return(filename):
+    """This is a wrapper for reading file content from a file. It reads the file
+    associated with given file name, through a pipe that deletes all carrige
+    return (\\r) symbols. It returns the result of readlines()."""
     # Pipe input through 'tr' to delete carrige return symbols.
     pipe = pipes.Template()
     pipe.append('tr -d \'\\r\'', '--')
+
     # Open the file using our pipe.
     f = pipe.open(filename, 'r')
     result = f.readlines()
+
     f.close()
+
     return result
 
 def extract_courses(files):
@@ -224,18 +229,21 @@ def main():
 
     # Arguments:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", action="store",
-                        dest="output", default='.',
-                        help="Sets OUTPUT destination (\'.\' is default)")
-    parser.add_argument("-t", action="store",
-                        dest="score_tree_path", default=".",
-                        help="Traverse SCORE_TREE_PATH for score_overview.txt files")
-    parser.add_argument("-d", action="store",
-                        dest="filter_path", default=None,
-                        help="Searches FILTER_PATH for courses to plot")
-    parser.add_argument("-r", action="store",
-                        dest="report", default=None,
-                        help="rebuilds a REPORT with plots")
+    parser.add_argument('-o', action='store',
+                        dest='output', default='.',
+                        help='Sets OUTPUT destination (\'.\' is default)')
+    parser.add_argument('-t', action='store',
+                        dest='score_tree_path', default='.',
+                        help='Traverse SCORE_TREE_PATH for score_overview.txt files')
+    parser.add_argument('-d', action='store',
+                        dest='filter_path', default=None,
+                        help='Searches FILTER_PATH for courses to plot')
+    parser.add_argument('-r', action='store',
+                        dest='report', default=None,
+                        help='rebuilds a REPORT with plots')
+    parser.add_argument('-m', action='store_true',
+                        dest='multiprocessing', default=None,
+                        help='enable multiprocessing')
 
     # Extract arguments from command line arguments.
     result = parser.parse_args(sys.argv[1:])
@@ -256,13 +264,15 @@ def main():
     plt.figure(figsize=(10, 5))
     plt.rc('font', family='serif')
 
-    # Why not multiprocess?
-    pool = multiprocessing.Pool(multiprocessing.cpu_count() * 4)
+    if result.multiprocessing:
+        # Why not multiprocess?
+        pool = multiprocessing.Pool(multiprocessing.cpu_count() * 4)
 
-    # Maps over courses keys, using multithreading.
-    pool.map(partial(plot_course, courses=courses, output=output), courses)
-    #for course in courses:
-    #    plot_course(course, courses, output)
+        # Maps over courses keys, using multithreading.
+        pool.map(partial(plot_course, courses=courses, output=output), courses)
+    else:
+        for course in courses:
+            plot_course(course, courses, output)
 
     if rebuild_report:
         rebuild_tex(rebuild_report, output)
