@@ -162,7 +162,7 @@ def plot_course(course_name, courses, output):
     # A numeric representation of semesters
     semesters = range(len(semester_codes))
 
-    plt.plot(semesters, scores, marker='o', markersize=4)
+    plt.plot(semesters, scores, marker='o', markersize=5)
 
     # Some space between between axis lines and points.
     plt.xlim(-0.2, len(semesters) - 0.8)

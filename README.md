@@ -3,12 +3,19 @@ plotcourses
 
 Dette er et pythonscript som plotter generell vurdering av et kurs over
 tid. Scriptet skal brukes til kursevalueringen som gjøres av Fagutvalget ved
-Institutt for informatikk.
+Institutt for informatikk. Her er et eksempel på hvordan et plot kan se ut:
+
+[screenshot](example_plot.pdf)
 
 Merk at dette scriptet er laget for å passe til Fui sitt filområde, og vil
-antageligvis ikke være til nytte for noen utenfor Fui.
+antageligvis ikke være til nytte for noen utenfor Fui. 
 
 ## Bruk
+
+Scriptet er inkludert i `~/internt/kk/kursevaluering/v2013/Makefile`, og
+denne makefilen kan gjenbrukes i senere semestre. Les videre dersom du
+ønsker mer innsikt i hvordan scriptet fungerer (eller at Makefilen mot
+formodning ikke lenger fungerer).
 
 Scriptet bruker `python3.3` og er avhengig av `matplotlib`. På Ifi's
 maskiner ligger `python3.3` i `/snacks/bin/` området.
@@ -33,7 +40,8 @@ fra `~/internt/kk/kursevaluering/` eller bruke opsjonen `-t`.
 Siden vi ikke trenger generere plot for alle kurs som har gått hvert
 semester finnes det en opsjon som lar deg filtrere vekk kurs. Ved å bruke
 `-d ~/internt/kk/kursevaluering/v2013/` vil scriptet kun generere plots for
-kurs som det er skrevet en evaluering for.
+kurs som det er skrevet en evaluering for. Dette gjøres ved å finne filer
+med navn som `INFxxxx.txt`.
 
 `compile-summaries.py` genererer kursevalueringen, som får navn
 `report.tex`. For å legge til plottene som genereres i rapporten kan man
