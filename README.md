@@ -5,7 +5,7 @@ Dette er et pythonscript som plotter generell vurdering av et kurs over
 tid. Scriptet skal brukes til kursevalueringen som gjøres av Fagutvalget ved
 Institutt for informatikk. Her er et eksempel på hvordan et plot kan se ut:
 
-[screenshot](example_plot.pdf)
+![screenshot](example_plot.pdf)
 
 Merk at dette scriptet er laget for å passe til Fui sitt filområde, og vil
 antageligvis ikke være til nytte for noen utenfor Fui. 
